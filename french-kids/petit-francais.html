@@ -1,0 +1,715 @@
+<title>Petit Français</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@400;600;800&family=Nunito:wght@400;700;800&display=swap">
+<style>
+/* Layout: a French school notebook (Seyès ruling) — lessons are sticker-like cards laid on the ruled page */
+:root {
+  --paper: #fbfcff;
+  --rule: #dfe7f8;
+  --rule-strong: #c3d2f1;
+  --margin: #e5484d;
+  --ink: #1f2a52;
+  --muted: #56628c;
+  --card: #ffffff;
+  --edge: #1f2a52;
+  --accent: #2753c9;
+  --accent-ink: #ffffff;
+  --good: #1c8a4a;
+  --good-bg: #e3f6ea;
+  --miss: #c2410c;
+  --miss-bg: #fdeee4;
+  --sun: #ffd43b;
+  --shadow: rgba(31, 42, 82, .9);
+  --display: "Playpen Sans", "Comic Sans MS", "Chalkboard SE", ui-rounded, system-ui, sans-serif;
+  --body: "Nunito", ui-rounded, "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #131a2f; --rule: #1d2642; --rule-strong: #27335a; --margin: #b83b45;
+    --ink: #eef1fb; --muted: #a6b0cf; --card: #1b2442; --edge: #8fa3dd;
+    --accent: #86a6ff; --accent-ink: #0f1630; --good: #5be08f; --good-bg: #173a2a;
+    --miss: #ff9a6b; --miss-bg: #3d2318; --sun: #ffd43b; --shadow: rgba(0, 0, 0, .55);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #131a2f; --rule: #1d2642; --rule-strong: #27335a; --margin: #b83b45;
+  --ink: #eef1fb; --muted: #a6b0cf; --card: #1b2442; --edge: #8fa3dd;
+  --accent: #86a6ff; --accent-ink: #0f1630; --good: #5be08f; --good-bg: #173a2a;
+  --miss: #ff9a6b; --miss-bg: #3d2318; --sun: #ffd43b; --shadow: rgba(0, 0, 0, .55);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background-color: var(--paper);
+  background-image:
+    repeating-linear-gradient(to bottom, transparent 0 31px, var(--rule-strong) 31px 32px),
+    repeating-linear-gradient(to bottom, transparent 0 7px, var(--rule) 7px 8px),
+    repeating-linear-gradient(to right, transparent 0 31px, var(--rule) 31px 32px);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.5;
+}
+.wrap {
+  max-width: 1040px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 12px 48px;
+}
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; line-height: 1.2; margin: 0; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--sun); outline-offset: 3px; border-radius: 10px; }
+a { color: var(--accent); }
+
+/* Header */
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  padding-block: 8px 14px; border-bottom: 3px double var(--margin); margin-bottom: 20px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+.brand .bunny { font-size: 40px; line-height: 1; }
+.brand b { font-family: var(--display); font-size: 1.5rem; display: block; }
+.brand small { color: var(--muted); font-size: .9rem; }
+.voice-switch { display: flex; align-items: center; gap: 4px; background: var(--card); border: 2px solid var(--edge);
+  border-radius: 999px; padding: 3px; box-shadow: 3px 3px 0 var(--shadow); }
+.vs-label { font-size: .8rem; font-weight: 800; color: var(--muted); padding: 0 6px 0 10px; text-transform: uppercase; letter-spacing: .05em; }
+.voice-switch button { border: 0; background: none; cursor: pointer; font-weight: 800; padding: 6px 14px; border-radius: 999px; }
+.voice-switch button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.top-controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.theme-btn { cursor: pointer; font-weight: 800; background: var(--card); border: 2px solid var(--edge); border-radius: 999px;
+  padding: 8px 14px; box-shadow: 3px 3px 0 var(--shadow); }
+.theme-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--shadow); }
+
+/* Shared card */
+.card { background: var(--card); border: 2px solid var(--edge); border-radius: 16px; box-shadow: 4px 4px 0 var(--shadow); }
+.btn { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; border: 2px solid var(--edge);
+  background: var(--accent); color: var(--accent-ink); font-weight: 800; padding: 10px 18px; border-radius: 999px;
+  box-shadow: 3px 3px 0 var(--shadow); transition: transform .1s; }
+.btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--shadow); }
+.btn.ghost { background: var(--card); color: var(--ink); }
+.eyebrow { font-family: var(--display); font-weight: 600; color: var(--margin); letter-spacing: .06em; text-transform: uppercase; font-size: .8rem; }
+
+/* Home */
+.hero { display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: center; padding: 20px; margin-bottom: 24px; }
+.hero .pierre { font-size: 84px; line-height: 1; }
+.hero h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); }
+.hero p { margin: 6px 0 0; color: var(--muted); max-width: 60ch; }
+.bubble { display: inline-block; margin-top: 10px; background: var(--sun); color: #1f2a52; font-weight: 800;
+  padding: 6px 14px; border-radius: 14px 14px 14px 2px; cursor: pointer; border: 2px solid #1f2a52; }
+.lessons { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+.tile { display: flex; flex-direction: column; gap: 6px; padding: 18px; text-decoration: none; color: var(--ink);
+  border-top: 10px solid var(--tone); transition: transform .15s; min-width: 0; }
+.tile:hover { transform: translateY(-3px) rotate(-.5deg); }
+.tile .big { font-size: 44px; line-height: 1; }
+.tile h2 { font-size: 1.4rem; }
+.tile .en { color: var(--muted); }
+.stars { color: var(--sun); font-size: 1.2rem; letter-spacing: 2px; -webkit-text-stroke: 1px #9a7a00; }
+.stars .off { color: transparent; -webkit-text-stroke: 1px var(--muted); }
+.grownups { margin-top: 28px; padding: 16px 20px; }
+.grownups p { margin: 6px 0 0; max-width: 70ch; color: var(--muted); }
+
+/* Lesson */
+.back { display: inline-block; margin-bottom: 12px; font-weight: 800; text-decoration: none; }
+.lesson-head { padding: 20px; border-left: 12px solid var(--tone); margin-bottom: 26px; }
+.lesson-head h1 { font-size: clamp(1.7rem, 4.5vw, 2.6rem); }
+.lesson-head p { margin: 6px 0 0; color: var(--muted); }
+.section { margin-bottom: 30px; }
+.section > h2 { font-size: 1.4rem; margin-bottom: 4px; }
+.section > .hint { color: var(--muted); margin: 0 0 14px; }
+.words { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 16px; }
+.word { cursor: pointer; text-align: center; padding: 14px 10px 12px; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  min-width: 0; transition: transform .12s; }
+.word:hover { transform: translateY(-2px); }
+.word.playing { transform: scale(1.04) rotate(-1deg); border-color: var(--tone); }
+.pic { height: 76px; display: grid; place-items: center; font-size: 56px; line-height: 1; }
+.swatch { width: 70px; height: 70px; border-radius: 50%; border: 3px solid var(--edge); }
+.numpic { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.numpic .digit { font-family: var(--display); font-size: 44px; font-weight: 800; line-height: 1; color: var(--tone); }
+.dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px; max-width: 90px; }
+.dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--tone); display: block; }
+.fr { font-family: var(--display); font-weight: 800; font-size: 1.25rem; overflow-wrap: anywhere; }
+.say { font-size: .85rem; color: var(--muted); font-style: italic; }
+.say b { font-style: normal; color: var(--ink); }
+.word .en { font-size: .9rem; }
+.chip { margin-top: 4px; font-size: .8rem; font-weight: 800; background: var(--rule); border-radius: 999px; padding: 2px 10px; border: 0; cursor: pointer; }
+.phrases { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.phrase { cursor: pointer; padding: 10px 16px; text-align: left; display: flex; flex-direction: column; min-width: 0; }
+.phrase .fr { font-size: 1.05rem; }
+.tip { padding: 14px 18px; border-left: 8px solid var(--sun); display: flex; gap: 12px; align-items: flex-start; }
+.tip .ear { font-size: 28px; line-height: 1; }
+.tip p { margin: 0; max-width: 65ch; }
+.song { padding: 18px 20px; }
+.song .tune { color: var(--muted); margin: 0 0 10px; }
+.lyrics { display: flex; flex-direction: column; gap: 8px; }
+.line { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; cursor: pointer; background: none; border: 0; padding: 6px 8px;
+  text-align: left; border-radius: 10px; }
+.line:hover { background: var(--rule); }
+.line .fr { font-size: 1.15rem; }
+.line .en { color: var(--muted); font-size: .9rem; }
+
+/* Quiz */
+.quiz { padding: 20px; }
+.quiz-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.progress { display: flex; gap: 6px; }
+.progress i { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--edge); display: block; }
+.progress i.ok { background: var(--good); }
+.progress i.no { background: var(--miss); }
+.progress i.now { background: var(--sun); }
+.ask { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+.ask h3 { font-size: 1.3rem; }
+.listen { font-size: 1.6rem; width: 64px; height: 64px; border-radius: 50%; justify-content: center; padding: 0; }
+.reveal { font-family: var(--display); font-weight: 800; font-size: 1.4rem; color: var(--accent); }
+.options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.opt { cursor: pointer; padding: 14px 8px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.opt .en { font-size: .9rem; color: var(--muted); text-align: center; }
+.opt.right { background: var(--good-bg); border-color: var(--good); }
+.opt.wrong { background: var(--miss-bg); border-color: var(--miss); }
+.opt[disabled] { cursor: default; }
+.feedback { min-height: 2.2em; margin-top: 14px; font-weight: 800; font-size: 1.1rem; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.feedback.ok { color: var(--good); }
+.feedback.no { color: var(--miss); }
+.result { text-align: center; padding: 10px 0; }
+.result .stars { font-size: 2.6rem; }
+.result p { margin: 6px 0 14px; }
+
+/* Grown-up notes */
+details.notes { padding: 14px 18px; }
+details.notes summary { cursor: pointer; font-weight: 800; font-family: var(--display); }
+details.notes ul { margin: 10px 0 0; padding-left: 20px; }
+details.notes li { margin-bottom: 6px; max-width: 70ch; }
+details.notes h4 { margin: 14px 0 4px; font-size: .95rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+
+/* Certificate */
+.cert { margin-top: 18px; padding: 26px 20px; text-align: center; border: 4px double var(--margin); border-radius: 16px; background: var(--card); }
+.cert h3 { font-size: 1.8rem; color: var(--margin); }
+.cert .who { font-family: var(--display); font-size: 1.6rem; font-weight: 800; margin: 10px 0; min-height: 1.4em; overflow-wrap: anywhere; }
+.cert label { display: block; color: var(--muted); font-size: .9rem; margin-top: 10px; }
+.cert input { font: inherit; padding: 8px 12px; border-radius: 10px; border: 2px solid var(--edge); background: var(--paper); color: var(--ink); max-width: 100%; }
+
+@media (max-width: 560px) {
+  .hero { grid-template-columns: 1fr; text-align: center; }
+  .hero p { margin-inline: auto; }
+  .words { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .options { gap: 8px; }
+  .pic { font-size: 46px; height: 64px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#">
+      <span class="bunny" aria-hidden="true">🐰</span>
+      <span><b>Petit Français</b><small>French for kids aged 6 to 9 · Unit 1</small></span>
+    </a>
+    <div class="top-controls">
+    <button class="theme-btn" id="themeBtn" aria-label="Switch to dark mode">🌙 Dark</button>
+    <div class="voice-switch" role="group" aria-label="Choose the voice">
+      <span class="vs-label">Voice</span>
+      <button id="voiceGirl" data-voice="girl" aria-pressed="true">👧 Girl</button>
+      <button id="voiceBoy" data-voice="boy" aria-pressed="false">👦 Boy</button>
+    </div>
+    </div>
+  </header>
+  <main id="app"></main>
+</div>
+
+<script>
+const LESSONS = [
+  {
+    id: "bonjour", n: 1, title: "Bonjour !", en: "Greetings", icon: "👋", tone: "#e5484d",
+    goal: "Say hello, goodbye, your name, and how you feel.",
+    words: [
+      { fr: "Bonjour", say: "bo(n)-<b>ZHOOR</b>", en: "Hello / good morning", pic: "☀️" },
+      { fr: "Salut", say: "sa-<b>LOO</b>", en: "Hi (to friends)", pic: "👋" },
+      { fr: "Au revoir", say: "oh ruh-<b>VWAR</b>", en: "Goodbye", pic: "🚶" },
+      { fr: "Je m'appelle…", speak: "Je m'appelle", say: "zhuh ma-<b>PELL</b>", en: "My name is…", pic: "🙋" },
+      { fr: "Comment tu t'appelles ?", say: "ko-mo(n) too ta-<b>PELL</b>", en: "What's your name?", pic: "❓" },
+      { fr: "Ça va ?", say: "sa <b>VA</b>", en: "How are you?", pic: "🤔" },
+      { fr: "Ça va bien", say: "sa va bee-<b>A(N)</b>", en: "I'm fine", pic: "👍" },
+      { fr: "Merci", say: "mair-<b>SEE</b>", en: "Thank you", pic: "🙏" }
+    ],
+    phrases: [{ fr: "Comme ci, comme ça", en: "So-so" }],
+    tip: "The French <b>j</b> in <i>je</i> sounds like the <b>s</b> in “treasure”.",
+    song: { tune: "Sing it to the tune of Frère Jacques. Children echo each line.", lines: [
+      { fr: "Bonjour, bonjour", en: "Hello, hello" },
+      { fr: "Ça va bien ? Ça va bien ?", en: "Are you well? Are you well?" },
+      { fr: "Merci, merci", en: "Thank you, thank you" },
+      { fr: "Au revoir ! Au revoir !", en: "Goodbye! Goodbye!" }
+    ]},
+    games: [
+      "<b>Puppet hello:</b> Pierre le Lapin greets each child, who answers “Bonjour, je m'appelle…”.",
+      "<b>Pass the ball:</b> the catcher says “Je m'appelle…” and asks the next child “Comment tu t'appelles ?”.",
+      "<b>Feelings faces:</b> ask “Ça va ?” and children show a happy, so-so or sad face."
+    ],
+    checks: ["Wave: the child says <i>Bonjour</i>.", "Ask “Comment tu t'appelles ?”: the child answers with their name.", "Say <i>Merci</i>: the child points to thank you, not hello."]
+  },
+  {
+    id: "nombres", n: 2, title: "Les nombres", en: "Numbers 1 to 10", icon: "🔢", tone: "#2753c9",
+    goal: "Count to 10 and say how old you are.",
+    words: [
+      { fr: "un", say: "a(n)", en: "one", num: 1 },
+      { fr: "deux", say: "duh", en: "two", num: 2 },
+      { fr: "trois", say: "trwah", en: "three", num: 3 },
+      { fr: "quatre", say: "<b>KAT</b>-ruh", en: "four", num: 4 },
+      { fr: "cinq", say: "sank", en: "five", num: 5 },
+      { fr: "six", say: "seess", en: "six", num: 6 },
+      { fr: "sept", say: "set", en: "seven", num: 7 },
+      { fr: "huit", say: "weet", en: "eight", num: 8 },
+      { fr: "neuf", say: "nuhf", en: "nine", num: 9 },
+      { fr: "dix", say: "deess", en: "ten", num: 10 }
+    ],
+    phrases: [{ fr: "J'ai sept ans", en: "I am seven years old" }, { fr: "Tu as quel âge ?", en: "How old are you?" }],
+    tip: "<i>Deux</i> and <i>neuf</i> use a sound English doesn't have: round your lips as if to say “oo”, then say “uh”.",
+    song: { tune: "A traditional French counting rhyme. Clap on every number.", lines: [
+      { fr: "Un, deux, trois", en: "One, two, three" },
+      { fr: "Nous irons au bois", en: "We'll go to the woods" },
+      { fr: "Quatre, cinq, six", en: "Four, five, six" },
+      { fr: "Cueillir des cerises", en: "To pick cherries" },
+      { fr: "Sept, huit, neuf, dix !", en: "Seven, eight, nine, ten!" }
+    ]},
+    games: [
+      "<b>Jump and count:</b> call a number; children jump that many times, counting aloud.",
+      "<b>Finger flash:</b> show fingers; the first to say the French number wins a point.",
+      "<b>Hide the number:</b> hide number cards; children bring one back and name it."
+    ],
+    checks: ["The child counts 1 to 10 (1 to 5 is a pass for younger kids).", "Hold up 3 fingers: the child says <i>trois</i>.", "Ask “Tu as quel âge ?”: the child answers “J'ai … ans”."]
+  },
+  {
+    id: "couleurs", n: 3, title: "Les couleurs", en: "Colours", icon: "🎨", tone: "#e8890c",
+    goal: "Name 8 colours and say which one you like.",
+    words: [
+      { fr: "rouge", say: "roozh", en: "red", swatch: "#e03131" },
+      { fr: "bleu", say: "bluh", en: "blue", swatch: "#1c64f2" },
+      { fr: "jaune", say: "zhohn", en: "yellow", swatch: "#fcc419" },
+      { fr: "vert", say: "vair", en: "green", swatch: "#2f9e44" },
+      { fr: "orange", say: "o-<b>RAHNZH</b>", en: "orange", swatch: "#fd7e14" },
+      { fr: "rose", say: "rohz", en: "pink", swatch: "#f783ac" },
+      { fr: "noir", say: "nwar", en: "black", swatch: "#161616" },
+      { fr: "blanc", say: "blah(n)", en: "white", swatch: "#ffffff" }
+    ],
+    phrases: [{ fr: "J'aime le bleu", en: "I like blue" }, { fr: "Touche le rouge !", en: "Touch the red!" }],
+    tip: "The <b>r</b> in <i>rouge</i> and <i>vert</i> comes from the back of your throat, like a gentle gargle.",
+    song: { tune: "Sing it to the tune of Twinkle, Twinkle, Little Star.", lines: [
+      { fr: "Rouge, bleu, jaune et vert", en: "Red, blue, yellow and green" },
+      { fr: "Orange, rose, noir, blanc", en: "Orange, pink, black, white" },
+      { fr: "Ce sont les couleurs", en: "These are the colours" },
+      { fr: "Que j'aime tant !", en: "That I love so much!" }
+    ]},
+    games: [
+      "<b>Touche le rouge !</b> Children run to touch something of that colour.",
+      "<b>Colour sort:</b> sort coloured paper squares into bowls labelled in French.",
+      "<b>Rainbow picture:</b> colour a rainbow while the grown-up calls out each colour."
+    ],
+    checks: ["Hold up a colour card: the child names it (6 of 8 is a pass).", "Say <i>jaune</i>: the child points to yellow.", "The child says “J'aime le …” with their favourite colour."]
+  },
+  {
+    id: "famille", n: 4, title: "La famille", en: "Family", icon: "🏡", tone: "#1c8a4a",
+    goal: "Name 8 family members and introduce someone.",
+    words: [
+      { fr: "maman", say: "ma-<b>MAH(N)</b>", en: "mum", pic: "👩" },
+      { fr: "papa", say: "pa-<b>PA</b>", en: "dad", pic: "👨" },
+      { fr: "le frère", say: "luh <b>FRAIR</b>", en: "brother", pic: "👦" },
+      { fr: "la sœur", say: "la <b>SUR</b>", en: "sister", pic: "👧" },
+      { fr: "le bébé", say: "luh bay-<b>BAY</b>", en: "baby", pic: "👶" },
+      { fr: "mamie", say: "ma-<b>MEE</b>", en: "granny", pic: "👵" },
+      { fr: "papi", say: "pa-<b>PEE</b>", en: "grandpa", pic: "👴" },
+      { fr: "la famille", say: "la fa-<b>MEE</b>", en: "family", pic: "👪" }
+    ],
+    phrases: [{ fr: "Voici ma maman", en: "This is my mum" }, { fr: "Voici mon frère", en: "This is my brother" }, { fr: "ma tante", en: "my aunt" }, { fr: "mon oncle", en: "my uncle" }],
+    tip: "Use <b>mon</b> for boy words (<i>mon frère</i>) and <b>ma</b> for girl words (<i>ma sœur</i>). In <i>famille</i>, the <b>ille</b> sounds like a soft “ee-yuh”.",
+    song: { tune: "Sing it slowly to the tune of Frère Jacques. Hold up a finger for each person.", lines: [
+      { fr: "Voici maman, voici papa", en: "Here's mum, here's dad" },
+      { fr: "Mon frère, ma sœur", en: "My brother, my sister" },
+      { fr: "Mamie et papi", en: "Granny and grandpa" },
+      { fr: "Toute ma famille !", en: "My whole family!" }
+    ]},
+    games: [
+      "<b>Finger family:</b> each finger is a family member; wiggle it as you name it.",
+      "<b>Family drawing:</b> children draw the people they live with and label two in French.",
+      "<b>Who's missing?</b> Lay out family cards, remove one while eyes are closed, children name it."
+    ],
+    checks: ["Point to a family card: the child names it (5 of 8 is a pass).", "The child introduces someone: “Voici mon/ma …”.", "Say <i>sœur</i>: the child picks sister, not brother."],
+    note: "Families differ. Let children draw whoever they live with, and offer extra words like <i>ma tante</i>, <i>mon oncle</i> or <i>mon chien</i>."
+  },
+  {
+    id: "animaux", n: 5, title: "Les animaux", en: "Animals", icon: "🐮", tone: "#8b4fd6",
+    goal: "Name 8 animals, make their French sounds, and say what colour they are.",
+    words: [
+      { fr: "le chien", say: "luh shee-<b>A(N)</b>", en: "dog", pic: "🐶", sound: "ouaf ouaf" },
+      { fr: "le chat", say: "luh <b>SHA</b>", en: "cat", pic: "🐱", sound: "miaou" },
+      { fr: "la vache", say: "la <b>VASH</b>", en: "cow", pic: "🐮", sound: "meuh" },
+      { fr: "le cochon", say: "luh ko-<b>SHO(N)</b>", en: "pig", pic: "🐷", sound: "groin groin" },
+      { fr: "le canard", say: "luh ka-<b>NAR</b>", en: "duck", pic: "🦆", sound: "coin coin" },
+      { fr: "le coq", say: "luh <b>KOK</b>", en: "rooster", pic: "🐓", sound: "cocorico" },
+      { fr: "le lapin", say: "luh la-<b>PA(N)</b>", en: "rabbit", pic: "🐰" },
+      { fr: "le poisson", say: "luh pwa-<b>SO(N)</b>", en: "fish", pic: "🐟" }
+    ],
+    phrases: [{ fr: "Le chat est noir", en: "The cat is black" }, { fr: "Le cochon est rose", en: "The pig is pink" }],
+    tip: "In French, <b>ch</b> always sounds like “sh”, so <i>chat</i> sounds like “sha”. French animals make different sounds too: a duck says <i>coin coin</i>!",
+    song: { tune: "Sing it to the tune of Old MacDonald. Add one animal per verse.", lines: [
+      { fr: "Dans la ferme, il y a…", en: "On the farm there is…" },
+      { fr: "une vache ! Meuh, meuh !", en: "a cow! Moo, moo!" },
+      { fr: "un canard ! Coin coin !", en: "a duck! Quack quack!" },
+      { fr: "un cochon ! Groin groin !", en: "a pig! Oink oink!" }
+    ]},
+    games: [
+      "<b>Animal sounds quiz:</b> make a French animal sound; children shout the animal.",
+      "<b>Animal charades:</b> a child acts out an animal; the others guess in French.",
+      "<b>Colour my animal:</b> draw an animal and say its colour: “Le cochon est rose”."
+    ],
+    checks: ["Show an animal card: the child names it (5 of 8 is a pass).", "Say <i>coin coin</i>: the child says <i>le canard</i>.", "The child makes one sentence with an animal and a colour."]
+  }
+];
+const FETE = { id: "fete", title: "La fête !", en: "Review party", icon: "🎉", tone: "#d6336c" };
+const SIMON = [
+  { fr: "Simon dit : touche le rouge !", en: "Simon says: touch red!" },
+  { fr: "Simon dit : saute trois fois !", en: "Simon says: jump three times!" },
+  { fr: "Simon dit : fais le chat !", en: "Simon says: be a cat!" },
+  { fr: "Simon dit : dis bonjour à maman !", en: "Simon says: say hello to mum!" }
+];
+
+/* ---------- Storage (per-viewer stars, optional) ---------- */
+function loadStars() { try { return JSON.parse(localStorage.getItem("pf-stars") || "{}"); } catch (e) { return {}; } }
+function saveStars(id, s) {
+  const all = loadStars();
+  if ((all[id] || 0) >= s) return;
+  all[id] = s;
+  try { localStorage.setItem("pf-stars", JSON.stringify(all)); } catch (e) {}
+}
+
+/* ---------- Audio ----------
+   Every word is pre-recorded with a neural French voice and published beside the page as audio/<id>.mp3.
+   If a clip can't load, the browser's own French voice is used instead. */
+const canSpeak = true;
+const hasTTS = "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
+const clean = t => t.replace(/…/g, "").replace(/\s+/g, " ").trim();
+function clipId(text) { let h = 5381; const s = clean(text); for (let i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0; return h.toString(16); }
+const player = new Audio();
+player.preload = "auto";
+let queue = [], playingEl = null;
+function stopAudio() {
+  queue = []; try { player.pause(); } catch (e) {}
+  if (hasTTS) try { speechSynthesis.cancel(); } catch (e) {}
+  if (playingEl) { playingEl.classList.remove("playing"); playingEl = null; }
+}
+function ttsFallback(text, done) {
+  if (!hasTTS) return done();
+  try {
+    const vs = speechSynthesis.getVoices();
+    const v = vs.find(x => /^fr[-_]FR/i.test(x.lang)) || vs.find(x => /^fr/i.test(x.lang));
+    const u = new SpeechSynthesisUtterance(clean(text));
+    u.lang = v ? v.lang : "fr-FR"; if (v) u.voice = v; u.rate = 0.85;
+    u.onend = u.onerror = done; speechSynthesis.speak(u);
+  } catch (e) { done(); }
+}
+function playNext() {
+  if (!queue.length) { if (playingEl) playingEl.classList.remove("playing"); playingEl = null; return; }
+  const text = queue.shift();
+  let finished = false;
+  const done = () => { if (finished) return; finished = true; playNext(); };
+  player.onended = done;
+  player.onerror = () => { if (finished) return; finished = true; ttsFallback(text, playNext); };
+  player.src = (voice === "boy" ? "audio/boy/" : "audio/") + clipId(text) + ".mp3";
+  const p = player.play();
+  if (p && p.catch) p.catch(err => { if (err && err.name === "AbortError") return; player.onerror(); });
+}
+function speak(text, el) {
+  stopAudio();
+  queue = Array.isArray(text) ? text.slice() : [text];
+  if (el) { playingEl = el; el.classList.add("playing"); }
+  playNext();
+  return true;
+}
+/* Light / dark mode, remembered on this device (follows the system until chosen) */
+(function () {
+  const root = document.documentElement, btn = document.getElementById("themeBtn");
+  let saved = null;
+  try { saved = localStorage.getItem("pf-theme"); } catch (e) {}
+  if (saved === "light" || saved === "dark") root.setAttribute("data-theme", saved);
+  const isDark = () => root.getAttribute("data-theme") ? root.getAttribute("data-theme") === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  const paint = () => { const d = isDark(); btn.textContent = d ? "☀️ Light" : "🌙 Dark"; btn.setAttribute("aria-label", d ? "Switch to light mode" : "Switch to dark mode"); };
+  btn.addEventListener("click", () => {
+    const next = isDark() ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("pf-theme", next); } catch (e) {}
+    paint();
+  });
+  try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", paint); } catch (e) {}
+  paint();
+})();
+
+/* Girl or boy voice, remembered on this device */
+let voice = "girl";
+try { if (localStorage.getItem("pf-voice") === "boy") voice = "boy"; } catch (e) {}
+function updatePill() {
+  document.querySelectorAll(".voice-switch [data-voice]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.voice === voice)));
+}
+document.querySelectorAll(".voice-switch [data-voice]").forEach(b => b.addEventListener("click", () => {
+  voice = b.dataset.voice;
+  try { localStorage.setItem("pf-voice", voice); } catch (e) {}
+  updatePill();
+  speak("Bonjour");
+}));
+const EXTRA_CLIPS = ["Bonjour, je m'appelle Pierre !", "Bravo !", "Presque !", "Parfait !", "Très bien !", "Bon effort !"];
+window.allClips = () => {
+  const t = [...EXTRA_CLIPS, ...SIMON.map(s => s.fr)];
+  LESSONS.forEach(l => {
+    l.words.forEach(w => { t.push(w.speak || w.fr); if (w.sound) t.push(w.sound); });
+    l.phrases.forEach(p => t.push(p.fr));
+    l.song.lines.forEach(s => t.push(s.fr));
+  });
+  const seen = {}; return t.map(clean).filter(x => !seen[x] && (seen[x] = 1)).map(x => ({ text: x, id: clipId(x) }));
+};
+
+/* ---------- Helpers ---------- */
+const $app = document.getElementById("app");
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+function picHTML(w) {
+  if (w.swatch) return `<div class="pic"><span class="swatch" style="background:${w.swatch}"></span></div>`;
+  if (w.num) return `<div class="pic"><div class="numpic"><span class="digit">${w.num}</span><span class="dots">${"<i></i>".repeat(w.num)}</span></div></div>`;
+  return `<div class="pic" aria-hidden="true">${w.pic}</div>`;
+}
+function starsHTML(n) { return `<span class="stars" aria-label="${n} of 3 stars">${[1,2,3].map(i => i <= n ? "★" : '<span class="off">★</span>').join("")}</span>`; }
+
+/* ---------- Views ---------- */
+function renderHome() {
+  const stars = loadStars();
+  $app.innerHTML = `
+    <section class="card hero">
+      <div class="pierre" aria-hidden="true">🐰</div>
+      <div>
+        <span class="eyebrow">Unit 1 · 5 lessons + a party</span>
+        <h1>Bonjour ! I'm Pierre le Lapin.</h1>
+        <p>I only speak French. Pick a lesson, tap the cards to hear the words, then try the quiz to win stars.</p>
+        <button class="bubble" id="pierreSays">🔊 Bonjour, je m'appelle Pierre !</button>
+      </div>
+    </section>
+    <div class="lessons">
+      ${[...LESSONS, FETE].map(l => `
+        <a class="card tile" href="#${l.id}" style="--tone:${l.tone}">
+          <span class="big" aria-hidden="true">${l.icon}</span>
+          <span class="eyebrow">${l.n ? "Leçon " + l.n : "Finale"}</span>
+          <h2>${l.title}</h2>
+          <span class="en">${l.en}</span>
+          ${starsHTML(stars[l.id] || 0)}
+        </a>`).join("")}
+    </div>
+    <section class="card grownups">
+      <h2 style="font-size:1.15rem">For the grown-up</h2>
+      <p>Each lesson takes 15 to 20 minutes: say bonjour, learn the new words, sing or play, take the quiz, then say au revoir. You don't need to speak French. The cards say every word aloud, and each lesson has game ideas and a quick check under “Grown-up notes”. Stars are saved on this device only.</p>
+    </section>`;
+  document.getElementById("pierreSays").onclick = e => speak("Bonjour, je m'appelle Pierre !", e.currentTarget);
+}
+
+function renderLesson(l) {
+  const best = loadStars()[l.id] || 0;
+  $app.innerHTML = `
+    <a class="back" href="#">← All lessons</a>
+    <section class="card lesson-head" style="--tone:${l.tone}">
+      <span class="eyebrow">Leçon ${l.n} · ${l.en}</span>
+      <h1>${l.icon} ${l.title}</h1>
+      <p>${l.goal} ${best ? "Your best: " + starsHTML(best) : ""}</p>
+    </section>
+
+    <section class="section" style="--tone:${l.tone}">
+      <h2>Les mots · The words</h2>
+      <p class="hint">Tap a card to hear it. Say it back three times: normal, whisper, then big voice!</p>
+      <div class="words">
+        ${l.words.map((w, i) => `
+          <div class="card word" role="button" tabindex="0" data-i="${i}" aria-label="Hear ${w.fr.replace(/"/g, "")}">
+            ${picHTML(w)}
+            <span class="fr">${w.fr}</span>
+            <span class="say">say: ${w.say}</span>
+            <span class="en">${w.en}</span>
+            ${w.sound ? `<button class="chip" data-sound="${i}">🔊 ${w.sound}</button>` : ""}
+          </div>`).join("")}
+      </div>
+      <div class="phrases">
+        ${l.phrases.map((p, i) => `<button class="card phrase" data-p="${i}"><span class="fr">🔊 ${p.fr}</span><span class="say">${p.en}</span></button>`).join("")}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card tip"><span class="ear" aria-hidden="true">👂</span><p><b>Sound tip:</b> ${l.tip}</p></div>
+    </section>
+
+    <section class="section">
+      <h2>La chanson · The song</h2>
+      <div class="card song">
+        <p class="tune">${l.song.tune} Tap a line to hear the words.</p>
+        <div class="lyrics">
+          ${l.song.lines.map((ln, i) => `<button class="line" data-l="${i}"><span class="fr">🎵 ${ln.fr}</span><span class="en">${ln.en}</span></button>`).join("")}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="quizSection">
+      <h2>Le quiz · Quick check</h2>
+      <p class="hint">Listen to Pierre and tap the right picture. Get all 5 for three stars!</p>
+      <div class="card quiz" id="quiz"></div>
+    </section>
+
+    <section class="section">
+      <details class="card notes">
+        <summary>Grown-up notes: games and quick check</summary>
+        <h4>Games to play</h4>
+        <ul>${l.games.map(g => `<li>${g}</li>`).join("")}</ul>
+        <h4>Quick check (no marks, just stickers)</h4>
+        <ul>${l.checks.map(g => `<li>${g}</li>`).join("")}</ul>
+        ${l.note ? `<h4>Note</h4><ul><li>${l.note}</li></ul>` : ""}
+      </details>
+    </section>`;
+
+  $app.querySelectorAll(".word").forEach(el => {
+    const w = l.words[+el.dataset.i];
+    const go = () => speak(w.speak || w.fr, el);
+    el.addEventListener("click", e => { if (!e.target.closest(".chip")) go(); });
+    el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+  });
+  $app.querySelectorAll("[data-sound]").forEach(b => b.onclick = () => speak(l.words[+b.dataset.sound].sound, b.closest(".word")));
+  $app.querySelectorAll("[data-p]").forEach(b => b.onclick = () => speak(l.phrases[+b.dataset.p].fr, b));
+  $app.querySelectorAll("[data-l]").forEach(b => b.onclick = () => speak(l.song.lines[+b.dataset.l].fr, b));
+  quizIntro(document.getElementById("quiz"), l.id, l.words.map(w => ({ ...w, tone: l.tone })), 5);
+}
+
+function renderFete() {
+  const all = LESSONS.flatMap(l => l.words.map(w => ({ ...w, tone: l.tone, lesson: l.id })));
+  $app.innerHTML = `
+    <a class="back" href="#">← All lessons</a>
+    <section class="card lesson-head" style="--tone:${FETE.tone}">
+      <span class="eyebrow">Finale · Review party</span>
+      <h1>🎉 La fête !</h1>
+      <p>Time to show off everything you learned. Get 6 of 8 in the big quiz to earn your Petit Français certificate.</p>
+    </section>
+    <section class="section">
+      <h2>Simon dit · Simon says</h2>
+      <p class="hint">Tap to hear Pierre's command, then do it! Only move when you hear “Simon dit”.</p>
+      <div class="phrases">${SIMON.map((p, i) => `<button class="card phrase" data-s="${i}"><span class="fr">🔊 ${p.fr}</span><span class="say">${p.en}</span></button>`).join("")}</div>
+    </section>
+    <section class="section">
+      <h2>Le grand quiz · The big quiz</h2>
+      <p class="hint">Words from all five lessons.</p>
+      <div class="card quiz" id="quiz"></div>
+    </section>
+    <section class="section">
+      <details class="card notes">
+        <summary>Grown-up notes: running the party</summary>
+        <ul>
+          <li><b>Bonjour circle:</b> everyone greets Pierre and says their name and age.</li>
+          <li><b>Treasure hunt:</b> hide picture cards from every lesson; each child finds one and says the word. Bonus point for a sentence like “Le chien est bleu !”.</li>
+          <li><b>Simon dit:</b> use the commands above, then make up your own.</li>
+          <li><b>Finish</b> with the au revoir song and stickers.</li>
+        </ul>
+      </details>
+    </section>`;
+  $app.querySelectorAll("[data-s]").forEach(b => b.onclick = () => speak(SIMON[+b.dataset.s].fr, b));
+  quizIntro(document.getElementById("quiz"), "fete", all, 8, true);
+}
+
+/* ---------- Quiz ---------- */
+function quizIntro(box, id, pool, count, cert) {
+  box.innerHTML = `<div class="result">
+      <p style="font-size:1.1rem">${count} questions. Pierre says a word, you tap its picture.</p>
+      <button class="btn" id="startQuiz">▶ Start the quiz</button></div>`;
+  box.querySelector("#startQuiz").onclick = () => runQuiz(box, id, pool, count, cert);
+}
+
+function runQuiz(box, id, pool, count, cert) {
+  const qs = shuffle(pool).slice(0, count).map(ans => {
+    const others = shuffle(pool.filter(w => w.fr !== ans.fr && w.en !== ans.en)).slice(0, 2);
+    return { ans, opts: shuffle([ans, ...others]) };
+  });
+  const results = [];
+  let q = 0;
+
+  function show() {
+    const cur = qs[q];
+    box.innerHTML = `
+      <div class="quiz-top">
+        <span class="eyebrow">Question ${q + 1} of ${count}</span>
+        <span class="progress">${qs.map((_, i) => `<i class="${i < results.length ? (results[i] ? "ok" : "no") : i === q ? "now" : ""}"></i>`).join("")}</span>
+      </div>
+      <div class="ask">
+        <button class="btn listen" id="hear" aria-label="Hear the word again">🔊</button>
+        <div><h3>Which one is it?</h3><span class="reveal" id="reveal" ${canSpeak ? "hidden" : ""}>${cur.ans.fr}</span>
+        ${canSpeak ? '<button class="chip" id="showWord">Show the word</button>' : ""}</div>
+      </div>
+      <div class="options">
+        ${cur.opts.map((o, i) => `<button class="card opt" data-o="${i}" style="--tone:${o.tone}">${picHTML(o)}<span class="en">${o.en}</span></button>`).join("")}
+      </div>
+      <div class="feedback" id="fb" aria-live="polite"></div>`;
+    const say = () => speak(cur.ans.speak || cur.ans.fr);
+    box.querySelector("#hear").onclick = say;
+    const sw = box.querySelector("#showWord");
+    if (sw) sw.onclick = () => { box.querySelector("#reveal").hidden = false; sw.hidden = true; };
+    box.querySelectorAll(".opt").forEach(b => b.onclick = () => answer(+b.dataset.o));
+    say();
+  }
+
+  function answer(i) {
+    const cur = qs[q];
+    const ok = cur.opts[i].fr === cur.ans.fr;
+    results.push(ok);
+    box.querySelectorAll(".opt").forEach((b, j) => {
+      b.disabled = true;
+      if (cur.opts[j].fr === cur.ans.fr) b.classList.add("right");
+      else if (j === i) b.classList.add("wrong");
+    });
+    box.querySelector("#reveal").hidden = false;
+    const sw = box.querySelector("#showWord"); if (sw) sw.hidden = true;
+    const fb = box.querySelector("#fb");
+    fb.className = "feedback " + (ok ? "ok" : "no");
+    fb.innerHTML = (ok ? "Bravo ! That's right." : `Presque ! (Almost!) It was “${cur.ans.fr}”, ${cur.ans.en}.`) +
+      ` <button class="btn" id="next">${q + 1 < count ? "Next →" : "See my stars"}</button>`;
+    speak(ok ? "Bravo !" : ["Presque !", cur.ans.speak || cur.ans.fr]);
+    const nx = box.querySelector("#next"); nx.focus(); nx.onclick = () => { q++; q < count ? show() : finish(); };
+  }
+
+  function finish() {
+    const right = results.filter(Boolean).length;
+    const ratio = right / count;
+    const stars = ratio === 1 ? 3 : ratio >= .6 ? 2 : right > 0 ? 1 : 0;
+    saveStars(id, stars);
+    const passed = cert && right >= 6;
+    const msg = stars === 3 ? "Parfait ! Perfect!" : stars === 2 ? "Très bien ! Very good!" : "Bon effort ! Good try!";
+    box.innerHTML = `<div class="result">
+      ${starsHTML(stars)}
+      <h3 style="font-size:1.6rem;margin-top:6px">${msg}</h3>
+      <p>You got ${right} of ${count} right.</p>
+      <button class="btn" id="again">↻ Play again</button>
+      ${!cert ? ' <a class="btn ghost" href="#">Back to lessons</a>' : ""}
+    </div>
+    ${passed ? `<div class="cert">
+      <span class="eyebrow">Certificat</span>
+      <h3>Petit Français</h3>
+      <p>This certificate is awarded to</p>
+      <div class="who" id="certName">…</div>
+      <p>for learning greetings, numbers, colours, family and animals in French.<br>Pierre le Lapin dit : <b>Bravo !</b></p>
+      <p class="say">${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
+      <label for="certInput">Type your name</label>
+      <input id="certInput" maxlength="30" placeholder="Je m'appelle…">
+    </div>` : cert ? `<p class="hint" style="text-align:center">Get 6 of 8 to earn your certificate. Essaie encore ! (Try again!)</p>` : ""}`;
+    speak(msg.split("!")[0] + " !");
+    box.querySelector("#again").onclick = () => runQuiz(box, id, pool, count, cert);
+    const ci = box.querySelector("#certInput");
+    if (ci) ci.oninput = () => { box.querySelector("#certName").textContent = ci.value.trim() || "…"; };
+  }
+  show();
+}
+
+/* ---------- Router ---------- */
+function route() {
+  const h = location.hash.replace("#", "");
+  const l = LESSONS.find(x => x.id === h);
+  stopAudio();
+  if (l) renderLesson(l); else if (h === "fete") renderFete(); else renderHome();
+  window.scrollTo(0, 0);
+  updatePill();
+}
+window.addEventListener("hashchange", route);
+route();
+</script>
